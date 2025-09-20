@@ -1,0 +1,47 @@
+body {
+    background: #f6f7fb
+}
+
+.shadow-soft {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .06)
+}
+
+.card-hover {
+    transition: transform .12s ease, box-shadow .12s ease
+}
+
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, .08)
+}
+
+.sticky-card {
+    position: sticky;
+    top: 12px
+}
+
+.autosize {
+    overflow: hidden
+}
+
+.badge-ok {
+    background: #198754
+}
+
+.badge-miss {
+    background: #6c757d
+}
+
+.label-pill {
+    font-size: .75rem;
+    border: 1px solid #dee2e6;
+    border-radius: 999px;
+    padding: .125rem .5rem;
+    background: #fff
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: .25rem .75rem
+}

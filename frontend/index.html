@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Revisión Sistemática — Inicio</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/styles.css" />
+</head>
+
+<body data-page="home">
+    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-semibold" href="index.html">Revision2</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
+                aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="upload.html">Subir PDFs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="articulos.html">Artículos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="export.html">Exportar</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <main class="container py-4">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="card card-hover shadow-soft">
+                    <div class="card-body">
+                        <h5 class="card-title">1) Subir artículos</h5>
+                        <p class="text-muted">Carga 1 o varios PDFs. El título se toma del nombre de archivo y se guarda
+                            el <code>pdf_path</code>.</p>
+                        <a href="upload.html" class="btn btn-primary">Ir a subir</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card card-hover shadow-soft">
+                    <div class="card-body">
+                        <h5 class="card-title">2) Completar preguntas</h5>
+                        <p class="text-muted">Abre un artículo y responde RQ1..RQn con respuesta abierta, categóricas,
+                            impacto y valoración.</p>
+                        <a href="articulos.html" class="btn btn-primary">Ver artículos</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card card-hover shadow-soft">
+                    <div class="card-body">
+                        <h5 class="card-title">3) Exportar resultados</h5>
+                        <p class="text-muted">Descarga CSV/Excel en formato ancho: una fila por artículo, columnas 0/1
+                            por opción de cada RQ.</p>
+                        <a href="export.html" class="btn btn-primary">Exportar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/app.js"></script>
+</body>
+
+</html>
