@@ -10,7 +10,8 @@ from dotenv import load_dotenv
 
 from db import SessionLocal
 from models import Articulo, Pregunta, OpcionRespuesta, Respuesta
-from export_wide import build_wide_dataframe
+from export_wide import build_wide_dataframe_simple
+
 
 load_dotenv()
 PDF_DIR = os.getenv("PDF_DIR", "./pdfs")
@@ -180,43 +181,30 @@ def upsert_respuestas(aid: int, payload: List[RespuestaIn], db: Session = Depend
 # ========== Export ==========
 @app.get("/export/csv")
 def export_csv(db: Session = Depends(get_db)):
-    df = build_wide_dataframe(db)
-    # CSV en memoria
-    csv_bytes = df.to_csv(index=False).encode("utf-8")
+    df = build_wide_dataframe_simple(db)
+    csv_text = df.to_csv(index=False)
+    csv_bytes = ("\ufeff" + csv_text).encode("utf-8")  # BOM + UTF-8
     return StreamingResponse(
         iter([csv_bytes]),
-        media_type="text/csv",
+        media_type="text/csv; charset=utf-8",
         headers={"Content-Disposition": 'attachment; filename="Revision2_export.csv"'}
     )
 
 @app.get("/export/xlsx")
 def export_xlsx(db: Session = Depends(get_db)):
-    df = build_wide_dataframe(db)
+    df = build_wide_dataframe_simple(db)
     from io import BytesIO
     bio = BytesIO()
     with pd.ExcelWriter(bio, engine="openpyxl") as writer:
-        df.to_excel(writer, index=False, sheet_name="VistaAncha")
-        # Hojas crudas (opcional)
-        # dump artículos
-        arts = db.query(Articulo).order_by(Articulo.id.asc()).all()
-        df_a = pd.DataFrame([{"id": a.id, "titulo": a.titulo, "pdf_path": a.pdf_path, "resumen": a.resumen} for a in arts])
-        if not df_a.empty: df_a.to_excel(writer, index=False, sheet_name="Articulos")
-        # dump respuestas
-        rs = db.query(Respuesta).all()
-        df_r = pd.DataFrame([{
-            "articulo_id": r.articulo_id,
-            "pregunta_id": r.pregunta_id,
-            "respuesta": r.respuesta,
-            "respuestas_categoricas": ", ".join(r.respuestas_categoricas or []),
-            "impacto": r.impacto,
-            "valoracion": r.valoracion
-        } for r in rs])
-        if not df_r.empty: df_r.to_excel(writer, index=False, sheet_name="Respuestas")
+        df.to_excel(writer, index=False, sheet_name="AnchoSimple")
     bio.seek(0)
     return StreamingResponse(
-        bio, media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        bio,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         headers={"Content-Disposition": 'attachment; filename="Revision2_export.xlsx"'}
     )
+
+
 
 
 from fastapi.staticfiles import StaticFiles

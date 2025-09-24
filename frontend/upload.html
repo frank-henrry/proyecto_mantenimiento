@@ -1,56 +1,93 @@
 <!doctype html>
 <html lang="es">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Subir PDFs — Revision2</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/styles.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Subir PDFs — Revision2</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/styles.css" />
 </head>
+<body data-page="upload" class="theme-init">
+  <div class="decor decor-blob-1"></div>
+  <div class="decor decor-blob-2"></div>
+  <div class="noise"></div>
 
-<body data-page="upload">
-    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-semibold" href="index.html">Revision2</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
+  <nav class="navbar navbar-expand-lg nav-glass sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="index.html">
+        <span class="brand-chip"></span> Revision2
+      </a>
+      <div class="d-flex align-items-center gap-2 d-lg-none ms-auto">
+        <button id="themeToggleSm" class="btn btn-icon" aria-label="Cambiar tema">
+          <span class="icon-sun"></span><span class="icon-moon"></span>
+        </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
                 aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon" style="filter: var(--icon-filter)"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link active" href="upload.html">Subir PDFs</a></li>
+          <li class="nav-item"><a class="nav-link" href="articulos.html">Artículos</a></li>
+          <li class="nav-item me-lg-2"><a class="nav-link" href="export.html">Exportar</a></li>
+          <li class="nav-item d-none d-lg-block">
+            <button id="themeToggle" class="btn btn-icon" aria-label="Cambiar tema">
+              <span class="icon-sun"></span><span class="icon-moon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="nav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" href="upload.html">Subir PDFs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="articulos.html">Artículos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="export.html">Exportar</a></li>
-                </ul>
-            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+    <h3 class="mb-3">Subida de artículos (PDF)</h3>
+
+    <div class="card action-card">
+      <div class="card-body">
+        <p class="text-muted mb-2">
+          Selecciona o arrastra tus PDFs. <strong>Los artículos se guardan en la base</strong> al completar la subida.
+        </p>
+
+        <div id="dropzone" class="dropzone mb-3">
+          <input id="pdfFiles" class="visually-hidden" type="file" accept="application/pdf" multiple />
+          <div class="dz-inner text-center">
+            <div class="dz-icon">📄</div>
+            <div class="dz-title">Arrastra y suelta aquí tus PDFs</div>
+            <div class="dz-sub">o</div>
+            <button id="pickBtn" type="button" class="btn btn-outline-primary btn-sm">Elegir archivos</button>
+          </div>
         </div>
-    </nav>
 
-
-    <main class="container py-4">
-        <h3 class="mb-3">Subida de artículos (PDF)</h3>
-        <div class="card shadow-soft">
-            <div class="card-body">
-                <form id="uploadForm">
-                    <div class="mb-3">
-                        <label class="form-label">Selecciona uno o varios PDFs</label>
-                        <input id="pdfFiles" class="form-control" type="file" accept="application/pdf" multiple />
-                        <div class="form-text">El título se tomará del nombre del archivo.</div>
-                    </div>
-                    <button class="btn btn-primary" type="submit">Subir</button>
-                </form>
-                <div class="mt-4" id="uploadResults" style="display:none">
-                    <h6>Resultados de la subida</h6>
-                    <ul id="uploadedList" class="list-group small"></ul>
-                </div>
-            </div>
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div class="small text-muted">
+            <span id="fileCount">0</span> archivos en cola
+          </div>
+          <div class="d-flex gap-2">
+            <button id="clearBtn" class="btn btn-outline-secondary btn-sm" disabled>Limpiar</button>
+            <button id="uploadBtn" class="btn btn-primary btn-sm" disabled>Subir ahora</button>
+          </div>
         </div>
-    </main>
 
+        <div class="progress progress-thin mb-3" style="height:10px">
+          <div id="totalBar" class="progress-bar" style="width:0%"></div>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/app.js"></script>
+        <ul id="fileList" class="list-group list-group-flush"></ul>
+
+        <div class="mt-3 small text-muted">
+          Consejo: el <strong>título</strong> se toma del nombre del archivo. Se ordenan alfabéticamente al subir.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-3 small text-center text-muted">
+    Hecho con <span class="heart">♥</span> — Revision2
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/app.js"></script>
 </body>
-
 </html>

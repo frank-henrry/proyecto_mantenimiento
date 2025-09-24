@@ -39,32 +39,144 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ---- Subida de PDFs ----
-async function initUpload() {
-    const form = document.getElementById('uploadForm');
-    const filesInput = document.getElementById('pdfFiles');
-    const results = document.getElementById('uploadResults');
-    const list = document.getElementById('uploadedList');
+// ---- Subida de PDFs (nuevo) ----
+async function initUpload(){
+  // Tema (mismo toggle que index)
+  const THEME_KEY='rev2-theme';
+  function applyTheme(mode){ document.documentElement.setAttribute('data-theme', mode); localStorage.setItem(THEME_KEY, mode); }
+  (function initTheme(){
+    const saved = localStorage.getItem(THEME_KEY);
+    if(saved){ applyTheme(saved); } else {
+      const preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      applyTheme(preferDark? 'dark':'light');
+    }
+    document.body.classList.remove('theme-init');
+  })();
+  document.getElementById('themeToggle')?.addEventListener('click', ()=>{
+    const cur = document.documentElement.getAttribute('data-theme') || 'light';
+    applyTheme(cur==='light'?'dark':'light');
+  });
+  document.getElementById('themeToggleSm')?.addEventListener('click', ()=>{
+    const cur = document.documentElement.getAttribute('data-theme') || 'light';
+    applyTheme(cur==='light'?'dark':'light');
+  });
 
+  const input = document.getElementById('pdfFiles');
+  const pickBtn = document.getElementById('pickBtn');
+  const dropzone = document.getElementById('dropzone');
+  const uploadBtn = document.getElementById('uploadBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const fileList = document.getElementById('fileList');
+  const fileCount = document.getElementById('fileCount');
+  const totalBar = document.getElementById('totalBar');
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!filesInput.files.length) { toast('Selecciona al menos un PDF', 'warning'); return; }
-        const fd = new FormData();
-        for (const f of filesInput.files) { fd.append('files', f); }
-        try {
-            const data = await fetchJSON('/articulos/upload-multiple', { method: 'POST', body: fd });
-            list.innerHTML = '';
-            data.forEach(it => {
-                const li = document.createElement('li');
-                li.className = 'list-group-item d-flex justify-content-between align-items-center';
-                li.innerHTML = `<span><strong>${it.titulo}</strong><br/><span class="text-muted small">${it.pdf_path}</span></span><a class="btn btn-sm btn-outline-primary" href="articulo.html?id=${it.id}">Abrir</a>`;
-                list.appendChild(li);
-            });
-            results.style.display = '';
-            toast('Subida completa');
-        } catch (err) { toast('Error al subir: ' + err.message, 'danger'); }
+  let queue = [];      // [{file, li, bar, status}]
+  let uploading = false;
+
+  function fmtSize(n){
+    if(n>1024*1024) return (n/1024/1024).toFixed(1)+' MB';
+    if(n>1024) return (n/1024).toFixed(1)+' KB';
+    return n+' B';
+  }
+  function updateControls(){
+    fileCount.textContent = queue.length;
+    uploadBtn.disabled = (queue.length===0 || uploading);
+    clearBtn.disabled = (queue.length===0 || uploading);
+  }
+  function addFiles(files){
+    const arr = Array.from(files).filter(f => f.type==='application/pdf');
+    arr.forEach(f=>{
+      const li = document.createElement('li');
+      li.className = 'list-group-item';
+      li.innerHTML = `
+        <div class="file-meta">
+          <span class="file-name">${f.name}</span>
+          <span class="file-size">${fmtSize(f.size)}</span>
+        </div>
+        <div class="file-status">
+          <div class="progress" style="width:180px;height:8px"><div class="progress-bar" style="width:0%"></div></div>
+          <span class="badge rounded-pill text-bg-secondary">En cola</span>
+        </div>
+      `;
+      const bar = li.querySelector('.progress-bar');
+      const badge = li.querySelector('.badge');
+      fileList.appendChild(li);
+      queue.push({ file: f, li, bar, badge });
     });
+    updateControls();
+  }
+
+  // UI events
+  pickBtn.addEventListener('click', ()=> input.click());
+  input.addEventListener('change', (e)=> addFiles(e.target.files));
+
+  ;['dragenter','dragover'].forEach(ev=> dropzone.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); dropzone.classList.add('dragover'); }));
+  ;['dragleave','drop'].forEach(ev=> dropzone.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); dropzone.classList.remove('dragover'); }));
+  dropzone.addEventListener('drop', (e)=> addFiles(e.dataTransfer.files));
+
+  clearBtn.addEventListener('click', ()=>{
+    if(uploading) return;
+    queue = []; fileList.innerHTML = ''; totalBar.style.width='0%'; updateControls();
+  });
+
+  uploadBtn.addEventListener('click', async ()=>{
+    if(uploading || queue.length===0) return;
+    uploading = true; updateControls();
+    totalBar.style.width = '0%';
+
+    let done = 0;
+    for(const item of queue){
+      // Subir 1 archivo usando XHR para progreso
+      await new Promise((resolve) => {
+        const fd = new FormData();
+        fd.append('files', item.file); // endpoint acepta lista; aquí es uno por request
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/articulos/upload-multiple');
+        xhr.upload.onprogress = (e)=>{
+          if(e.lengthComputable){
+            const pct = Math.round(e.loaded*100/e.total);
+            item.bar.style.width = pct+'%';
+          }
+        };
+        xhr.onload = ()=>{
+          if(xhr.status>=200 && xhr.status<300){
+            // respuesta: array de artículos creados
+            const arr = JSON.parse(xhr.responseText);
+            const created = Array.isArray(arr) ? arr[0] : null;
+            item.bar.style.width='100%';
+            item.badge.className = 'badge rounded-pill badge-up';
+            item.badge.textContent = 'Guardado';
+            if(created?.id){
+              const link = document.createElement('a');
+              link.href = `articulo.html?id=${created.id}`;
+              link.className = 'small-note';
+              link.textContent = 'Abrir ficha';
+              item.li.querySelector('.file-status').appendChild(link);
+            }
+          }else{
+            item.badge.className = 'badge rounded-pill text-bg-danger';
+            item.badge.textContent = 'Error';
+          }
+          done++;
+          totalBar.style.width = Math.round(done*100/queue.length)+'%';
+          resolve();
+        };
+        xhr.onerror = ()=>{
+          item.badge.className = 'badge rounded-pill text-bg-danger';
+          item.badge.textContent = 'Error';
+          done++; totalBar.style.width = Math.round(done*100/queue.length)+'%';
+          resolve();
+        };
+        xhr.send(fd);
+      });
+    }
+
+    uploading = false;
+    updateControls();
+  });
 }
+
 
 // ---- Listado de artículos ----
 async function initList() {

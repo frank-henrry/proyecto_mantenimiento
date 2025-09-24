@@ -1,71 +1,174 @@
 <!doctype html>
 <html lang="es">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Revisión Sistemática — Inicio</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/styles.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Revisión Sistemática — Inicio</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/styles.css" />
 </head>
+<body data-page="home" class="theme-init">
+  <!-- Decor -->
+  <div class="decor decor-blob-1"></div>
+  <div class="decor decor-blob-2"></div>
+  <div class="noise"></div>
 
-<body data-page="home">
-    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-semibold" href="index.html">Revision2</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg nav-glass sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="index.html">
+        <span class="brand-chip"></span> Revision2
+      </a>
+      <div class="d-flex align-items-center gap-2 d-lg-none ms-auto">
+        <button id="themeToggleSm" class="btn btn-icon" aria-label="Cambiar tema">
+          <span class="icon-sun"></span><span class="icon-moon"></span>
+        </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
                 aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon" style="filter: var(--icon-filter)"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="upload.html">Subir PDFs</a></li>
+          <li class="nav-item"><a class="nav-link" href="articulos.html">Artículos</a></li>
+          <li class="nav-item me-lg-2"><a class="nav-link" href="export.html">Exportar</a></li>
+          <li class="nav-item d-none d-lg-block">
+            <button id="themeToggle" class="btn btn-icon" aria-label="Cambiar tema">
+              <span class="icon-sun"></span><span class="icon-moon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="nav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="upload.html">Subir PDFs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="articulos.html">Artículos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="export.html">Exportar</a></li>
-                </ul>
-            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero container py-4">
+    <div class="row align-items-center g-3">
+      <div class="col-lg-7">
+        <h1 class="display-6 fw-bold lh-1 mb-2 reveal-up">
+          Revisión sistemática <span class="txt-neon">ultra fluida</span>
+        </h1>
+        <p class="lead text-muted mb-3 reveal-up" style="--delay:.06s">
+          Sube PDFs, responde RQ1..RQn con explicación + categóricas + impacto, y exporta a Excel en formato ancho.
+        </p>
+        <div class="d-flex flex-wrap gap-2 reveal-up" style="--delay:.12s">
+          <a href="upload.html" class="btn btn-primary btn-lg glow">Comenzar</a>
+          <a href="articulos.html" class="btn btn-outline-primary btn-lg">Ver artículos</a>
         </div>
-    </nav>
-
-
-    <main class="container py-4">
-        <div class="row g-4">
-            <div class="col-lg-4">
-                <div class="card card-hover shadow-soft">
-                    <div class="card-body">
-                        <h5 class="card-title">1) Subir artículos</h5>
-                        <p class="text-muted">Carga 1 o varios PDFs. El título se toma del nombre de archivo y se guarda
-                            el <code>pdf_path</code>.</p>
-                        <a href="upload.html" class="btn btn-primary">Ir a subir</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card card-hover shadow-soft">
-                    <div class="card-body">
-                        <h5 class="card-title">2) Completar preguntas</h5>
-                        <p class="text-muted">Abre un artículo y responde RQ1..RQn con respuesta abierta, categóricas,
-                            impacto y valoración.</p>
-                        <a href="articulos.html" class="btn btn-primary">Ver artículos</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card card-hover shadow-soft">
-                    <div class="card-body">
-                        <h5 class="card-title">3) Exportar resultados</h5>
-                        <p class="text-muted">Descarga CSV/Excel en formato ancho: una fila por artículo, columnas 0/1
-                            por opción de cada RQ.</p>
-                        <a href="export.html" class="btn btn-primary">Exportar</a>
-                    </div>
-                </div>
-            </div>
+        <div class="badges-row reveal-up" style="--delay:.18s">
+          <span class="chip chip-ok">Local</span>
+          <span class="chip chip-info">Rápido</span>
+          <span class="chip chip-warn">Exportable</span>
         </div>
-    </main>
+      </div>
+      <div class="col-lg-5">
+        <div class="hud-card tilt reveal-up" style="--delay:.12s" data-tilt>
+          <div class="hud-grid">
+            <div class="hud-kpi">
+              <div class="kpi-label">Progreso</div>
+              <div class="kpi-value">72%</div>
+              <div class="progress progress-thin"><div class="progress-bar" style="width:72%"></div></div>
+            </div>
+            <div class="hud-log">
+              <div class="dot dot-ok"></div> RQ1: GPT, LLaMA<br/>
+              <div class="dot"></div> RQ5: F1, A/B<br/>
+              <div class="dot"></div> Exportación: CSV / XLSX
+            </div>
+          </div>
+          <div class="scanline"></div>
+        </div>
+      </div>
+    </div>
+  </header>
 
+  <!-- ACCIONES -->
+  <main class="container pb-4">
+    <div class="row g-3">
+      <div class="col-lg-4">
+        <div class="card action-card tilt" data-tilt>
+          <div class="card-body">
+            <div class="step">1</div>
+            <h5 class="card-title mb-1">Subir artículos</h5>
+            <p class="text-muted mb-3">Carga 1 o varios PDFs. El título se toma del nombre; se guarda el <code>pdf_path</code>.</p>
+            <a href="upload.html" class="btn btn-primary w-100">Ir a subir</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card action-card tilt" data-tilt>
+          <div class="card-body">
+            <div class="step">2</div>
+            <h5 class="card-title mb-1">Completar preguntas</h5>
+            <p class="text-muted mb-3">Explicación, categóricas, impacto y valoración por RQ.</p>
+            <a href="articulos.html" class="btn btn-primary w-100">Ir a artículos</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card action-card tilt" data-tilt>
+          <div class="card-body">
+            <div class="step">3</div>
+            <h5 class="card-title mb-1">Exportar resultados</h5>
+            <p class="text-muted mb-3">Descarga CSV/XLSX, una fila por artículo, 0/1 por opción.</p>
+            <a href="export.html" class="btn btn-primary w-100">Exportar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/app.js"></script>
+  <footer class="py-3 small text-center text-muted">
+    Hecho con <span class="heart">♥</span> — Revision2
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Tema: persistencia y toggle
+    const THEME_KEY = 'rev2-theme';
+    function applyTheme(mode){
+      document.documentElement.setAttribute('data-theme', mode);
+      localStorage.setItem(THEME_KEY, mode);
+    }
+    (function initTheme(){
+      const saved = localStorage.getItem(THEME_KEY);
+      if(saved){ applyTheme(saved); }
+      else {
+        const preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(preferDark? 'dark':'light');
+      }
+      document.body.classList.remove('theme-init');
+    })();
+    function toggleTheme(){
+      const cur = document.documentElement.getAttribute('data-theme') || 'light';
+      applyTheme(cur === 'light' ? 'dark' : 'light');
+    }
+    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+    document.getElementById('themeToggleSm')?.addEventListener('click', toggleTheme);
+
+    // Reveal on view
+    const io = new IntersectionObserver(es=>{
+      es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }});
+    }, {threshold:.2});
+    document.querySelectorAll('.reveal-up').forEach(el=> io.observe(el));
+
+    // Tilt suave
+    document.querySelectorAll('[data-tilt]').forEach(card=>{
+      let rX=0, rY=0;
+      card.addEventListener('mousemove', (e)=>{
+        const b = card.getBoundingClientRect();
+        const cx = b.left + b.width/2;
+        const cy = b.top + b.height/2;
+        const dx = (e.clientX - cx) / (b.width/2);
+        const dy = (e.clientY - cy) / (b.height/2);
+        rX = (dy * -5); rY = (dx * 5);
+        card.style.transform = `perspective(900px) rotateX(${rX}deg) rotateY(${rY}deg) translateZ(0)`;
+      });
+      card.addEventListener('mouseleave', ()=>{
+        card.style.transform = 'perspective(900px) rotateX(0) rotateY(0)';
+      });
+    });
+  </script>
 </body>
-
 </html>
