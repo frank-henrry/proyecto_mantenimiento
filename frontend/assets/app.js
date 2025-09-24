@@ -217,6 +217,127 @@ async function initList() {
     sortBy.addEventListener('change', load);
     load();
 }
+// === Partículas ===
+function createParticles() {
+  const container = document.getElementById('particlesContainer');
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDelay = Math.random() * 15 + 's';
+    p.style.animationDuration = Math.random() * 10 + 10 + 's';
+    container.appendChild(p);
+  }
+}
+
+// === Conexiones ===
+function createConnections() {
+  const container = document.getElementById('connectionsContainer');
+  for (let i = 0; i < 8; i++) {
+    const c = document.createElement('div');
+    c.classList.add('connection-line');
+    c.style.width = Math.random() * 200 + 50 + 'px';
+    c.style.top = Math.random() * 100 + '%';
+    c.style.left = Math.random() * 100 + '%';
+    container.appendChild(c);
+  }
+}
+
+// === Confetti ===
+function createConfetti() {
+  const colors = ['#4f46e5', '#06d6a0', '#f59e0b', '#ef4444', '#8b5cf6'];
+  for (let i = 0; i < 50; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.left = Math.random() * 100 + '%';
+    el.style.animation = `confetti-fall ${Math.random() * 3 + 2}s ease-in forwards`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 5000);
+  }
+}
+
+function showSuccessNotification() {
+  const n = document.getElementById('successNotification');
+  n.classList.add('show');
+  createConfetti();
+  setTimeout(() => n.classList.remove('show'), 3000);
+}
+
+// === Cursor Blob ===
+(function () {
+  const blob = document.getElementById('cursorBlob');
+  let bx = innerWidth / 2, by = innerHeight / 2;
+  let tx = bx, ty = by;
+
+  function move() {
+    bx += (tx - bx) * 0.12;
+    by += (ty - by) * 0.12;
+    blob.style.transform = `translate3d(${bx - 160}px, ${by - 160}px, 0)`;
+    requestAnimationFrame(move);
+  }
+
+  function onPointerMove(e) {
+    tx = e.clientX;
+    ty = e.clientY;
+  }
+
+  move();
+  addEventListener('pointermove', onPointerMove);
+})();
+
+// === Inicialización ===
+document.addEventListener('DOMContentLoaded', () => {
+  createParticles();
+  createConnections();
+});
+
+// === Lógica de archivos ===
+function updateFileList(files) {
+  const list = document.getElementById('fileList');
+  const count = document.getElementById('fileCount');
+  const clearBtn = document.getElementById('clearBtn');
+  const uploadBtn = document.getElementById('uploadBtn');
+
+  list.innerHTML = '';
+  count.textContent = files.length;
+  clearBtn.disabled = uploadBtn.disabled = !(files.length > 0);
+
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
+    const li = document.createElement('li');
+    li.className = 'list-group-item';
+    li.innerHTML = `<div class="file-meta"><div class="file-icon">PDF</div><div><div class="file-name">${f.name}</div><div class="file-size">${(f.size / 1024).toFixed(1)} KB</div></div></div><div class="file-status"><span class="badge-up">Listo</span></div>`;
+    list.appendChild(li);
+  }
+}
+
+document.getElementById('pickBtn').addEventListener('click', () => {
+  document.getElementById('pdfFiles').click();
+});
+document.getElementById('pdfFiles').addEventListener('change', e => updateFileList(e.target.files));
+document.getElementById('clearBtn').addEventListener('click', () => {
+  document.getElementById('pdfFiles').value = '';
+  updateFileList([]);
+});
+document.getElementById('uploadBtn').addEventListener('click', () => {
+  const bar = document.getElementById('totalBar');
+  let p = 0;
+  const it = setInterval(() => {
+    p += 5;
+    bar.style.width = p + '%';
+    if (p >= 100) {
+      clearInterval(it);
+      showSuccessNotification();
+      setTimeout(() => {
+        document.getElementById('pdfFiles').value = '';
+        updateFileList([]);
+        bar.style.width = '0%';
+      }, 1000);
+    }
+  }, 100);
+});
+
 
 // ---- Detalle de artículo ----
 async function initDetail() {
