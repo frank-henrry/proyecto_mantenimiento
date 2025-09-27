@@ -413,6 +413,348 @@ body {
     line-height: 1.6;
 }
 
+/* ===== Paleta / Tema (compatibles con tu index mejorado) ===== */
+:root {
+    --bg: #f6f7fb;
+    --surface: #fff;
+    --surface-2: #f2f5ff;
+    --text: #1f2330;
+    --muted: #80869a;
+    --border: #e6e7ee;
+    --primary: #6a7cff;
+    --accent: #9c50ff;
+    --primary-2: #19c2c2;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --shadow: 0 12px 28px rgba(0, 0, 0, .10);
+    --icon-filter: invert(0);
+}
+
+:root[data-theme="dark"] {
+    --bg: #0e1116;
+    --surface: #141a24cc;
+    --surface-2: #0f1625;
+    --text: #e9edf4;
+    --muted: #a5adbf;
+    --border: #1f2735;
+    --primary: #7c8cff;
+    --accent: #b07aff;
+    --primary-2: #23d3d3;
+    --success: #28d16f;
+    --warning: #ffb545;
+    --shadow: 0 18px 40px rgba(0, 0, 0, .45);
+    --icon-filter: invert(1);
+}
+
+body {
+    background: var(--bg);
+    color: var(--text)
+}
+
+/* ===== Decor / Fondo animado ===== */
+.noise {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .035;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+    z-index: 0
+}
+
+.decor {
+    position: fixed;
+    filter: blur(40px);
+    opacity: .35;
+    z-index: 0
+}
+
+.decor-blob-1 {
+    width: 420px;
+    height: 420px;
+    right: -120px;
+    top: 120px;
+    border-radius: 50%;
+    background: conic-gradient(from 210deg, var(--primary), var(--primary-2), var(--accent), var(--primary));
+    animation: drift 24s ease-in-out infinite
+}
+
+.decor-blob-2 {
+    width: 360px;
+    height: 360px;
+    left: -120px;
+    bottom: 160px;
+    border-radius: 50%;
+    background: conic-gradient(from 30deg, #ffb3b3, #ffd6a5, #ffd6e7, #ffb3b3);
+    animation: drift 28s ease-in-out infinite reverse
+}
+
+@keyframes drift {
+
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0)
+    }
+
+    50% {
+        transform: translate(24px, -18px) rotate(12deg)
+    }
+}
+
+.grid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: .08;
+    background-image: radial-gradient(circle at 1px 1px, var(--border) 1px, transparent 0);
+    background-size: 22px 22px
+}
+
+/* ===== Nav glass ===== */
+.nav-glass {
+    backdrop-filter: saturate(150%) blur(10px);
+    background: color-mix(in oklab, var(--surface) 80%, transparent);
+    border-bottom: 1px solid var(--border);
+}
+
+.brand-chip {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    box-shadow: 0 0 12px color-mix(in oklab, var(--accent) 40%, transparent);
+    display: inline-block
+}
+
+.btn-icon {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    position: relative
+}
+
+.btn-icon .icon-sun,
+.btn-icon .icon-moon {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    transition: .2s
+}
+
+.btn-icon .icon-sun::before {
+    content: "☀";
+    filter: drop-shadow(0 0 4px rgba(255, 180, 0, .35))
+}
+
+.btn-icon .icon-moon::before {
+    content: "🌙";
+    filter: drop-shadow(0 0 4px rgba(120, 120, 255, .35))
+}
+
+:root[data-theme="light"] .btn-icon .icon-sun {
+    opacity: 1;
+    transform: scale(1)
+}
+
+:root[data-theme="light"] .btn-icon .icon-moon {
+    opacity: 0;
+    transform: scale(.5)
+}
+
+:root[data-theme="dark"] .btn-icon .icon-sun {
+    opacity: 0;
+    transform: scale(.5)
+}
+
+:root[data-theme="dark"] .btn-icon .icon-moon {
+    opacity: 1;
+    transform: scale(1)
+}
+
+.theme-init {
+    visibility: hidden
+}
+
+/* evita flash al aplicar tema */
+
+/* ===== Chips / Badges ===== */
+.chip {
+    padding: .25rem .6rem;
+    border-radius: 999px;
+    font-size: .8rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted)
+}
+
+.chip-info {
+    color: var(--primary);
+    border-color: color-mix(in oklab, var(--primary) 40%, var(--border))
+}
+
+/* ===== Card Upload ===== */
+.upload-card {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 16px
+}
+
+.fancy-border {
+    position: relative;
+    border: 1px dashed var(--border);
+    border-radius: 14px;
+    overflow: hidden
+}
+
+.fancy-border::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 14px;
+    padding: 1px;
+    background: conic-gradient(from 0deg, transparent, color-mix(in oklab, var(--primary) 30%, transparent), transparent,
+            color-mix(in oklab, var(--accent) 30%, transparent), transparent);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: spin 12s linear infinite;
+    opacity: .6
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+.dropzone {
+    background: color-mix(in oklab, var(--surface-2) 85%, transparent);
+    padding: 24px;
+    transition: .2s
+}
+
+.dropzone.dragover {
+    background: color-mix(in oklab, var(--surface-2) 70%, transparent);
+    border-color: var(--primary)
+}
+
+.dz-inner .dz-icon {
+    font-size: 2rem
+}
+
+.dz-inner .dz-title {
+    font-weight: 600;
+    margin-top: 6px
+}
+
+.dz-inner .dz-sub {
+    color: var(--muted);
+    margin: 6px 0
+}
+
+.scanline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: .35;
+    animation: scan 3s linear infinite
+}
+
+@keyframes scan {
+    0% {
+        transform: translateX(-100%)
+    }
+
+    100% {
+        transform: translateX(100%)
+    }
+}
+
+/* Lista y progreso */
+.progress-thin .progress-bar {
+    background: linear-gradient(90deg, var(--primary), var(--accent))
+}
+
+#fileList .list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-color: var(--border);
+    background: transparent
+}
+
+.file-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.file-name {
+    font-weight: 600
+}
+
+.file-size {
+    color: var(--muted);
+    font-size: .85rem
+}
+
+.file-status {
+    display: flex;
+    align-items: center;
+    gap: 8px
+}
+
+.badge-up {
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    color: #fff;
+    padding: .25rem .5rem;
+    border-radius: 999px
+}
+
+/* Botones */
+.btn-primary {
+    --bs-btn-bg: linear-gradient(90deg, var(--primary), var(--accent));
+    --bs-btn-border-color: transparent;
+    --bs-btn-hover-bg: linear-gradient(90deg, var(--accent), var(--primary));
+    --bs-btn-hover-border-color: transparent;
+    color: #fff;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--primary);
+    --bs-btn-border-color: var(--primary);
+    --bs-btn-hover-bg: color-mix(in oklab, var(--primary) 10%, transparent);
+    --bs-btn-hover-border-color: var(--primary);
+}
+
+.glow {
+    animation: glow 2.2s ease-in-out infinite
+}
+
+@keyframes glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0)
+    }
+
+    50% {
+        box-shadow: 0 14px 30px color-mix(in oklab, var(--accent) 35%, transparent)
+    }
+}
+
+
 /* Fondo animado */
 .animated-bg {
     position: fixed;

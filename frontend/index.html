@@ -5,12 +5,600 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Revisión Sistemática — Inicio</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/styles.css?v=7" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ===== VARIABLES MEJORADAS ===== */
+    :root {
+      --bg: linear-gradient(135deg, #2d3748 0%, #1a202c 50%, #171923 100%);
+      --surface: rgba(45, 55, 72, 0.9);
+      --surface-2: rgba(26, 32, 44, 0.85);
+      --text: #e2e8f0;
+      --text-strong: #f7fafc;
+      --muted: #a0aec0;
+      --border: rgba(102, 126, 234, 0.3);
+      --primary: #ff6b6b;
+      --primary-2: #4ecdc4;
+      --accent: #45b7d1;
+      --success: #51cf66;
+      --warning: #ffd43b;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      --shadow-strong: 0 25px 50px rgba(0, 0, 0, 0.4);
+      --icon-filter: invert(1);
+      --glow-primary: 0 0 20px rgba(255, 107, 107, 0.5);
+      --glow-accent: 0 0 20px rgba(69, 183, 209, 0.5);
+    }
+
+    :root[data-theme="dark"] {
+      --bg: linear-gradient(135deg, #0f1419 0%, #1a1b23 50%, #252730 100%);
+      --surface: rgba(15, 20, 25, 0.95);
+      --surface-2: rgba(26, 27, 35, 0.9);
+      --text: #cbd5e0;
+      --text-strong: #e2e8f0;
+      --muted: #718096;
+      --border: rgba(69, 183, 209, 0.25);
+      --primary: #ff8a80;
+      --primary-2: #64ffda;
+      --accent: #40c4ff;
+      --success: #69f0ae;
+      --warning: #ffab40;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      --shadow-strong: 0 25px 50px rgba(0, 0, 0, 0.8);
+      --icon-filter: invert(1);
+      --glow-primary: 0 0 15px rgba(255, 138, 128, 0.4);
+      --glow-accent: 0 0 15px rgba(64, 196, 255, 0.4);
+    }
+
+    /* ===== RESET Y BASE ===== */
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      font-weight: 500;
+    }
+
+    body {
+      background: #1a202c;
+      color: var(--text-strong);
+      position: relative;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ===== FONDO ANIMADO SUTIL ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #1a202c;
+      z-index: -5;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, rgba(255, 107, 107, 0.3), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(69, 183, 209, 0.2), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(78, 205, 196, 0.3), transparent),
+        radial-gradient(1px 2px at 130px 80px, rgba(255, 212, 59, 0.2), transparent),
+        radial-gradient(2px 1px at 160px 30px, rgba(255, 107, 107, 0.2), transparent);
+      background-repeat: repeat;
+      background-size: 200px 100px;
+      animation: stars 120s linear infinite;
+      z-index: -4;
+    }
+
+    @keyframes stars {
+      from { transform: translateX(0); }
+      to { transform: translateX(-200px); }
+    }
+
+    /* Grid pattern sutil */
+    .grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -3;
+      animation: grid-move 60s linear infinite;
+    }
+
+    @keyframes grid-move {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    /* Ondas flotantes */
+    .wave-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(ellipse at center top, rgba(255, 107, 107, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at center bottom, rgba(69, 183, 209, 0.05) 0%, transparent 50%);
+      animation: wave-pulse 8s ease-in-out infinite alternate;
+      z-index: -2;
+    }
+
+    @keyframes wave-pulse {
+      0% { 
+        opacity: 0.3;
+        transform: scale(1) rotate(0deg);
+      }
+      100% { 
+        opacity: 0.7;
+        transform: scale(1.1) rotate(1deg);
+      }
+    }
+
+    /* ===== FONDO ANIMADO MEJORADO - ELIMINAMOS BLOBS ===== */
+    .noise {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      opacity: 0.02;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.2'/%3E%3C/svg%3E");
+      z-index: -1;
+    }
+
+    /* Removemos todos los blobs */
+
+    /* ===== NAVEGACIÓN GLASS ===== */
+    .nav-glass {
+      backdrop-filter: saturate(180%) blur(20px);
+      background: rgba(45, 55, 72, 0.85);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow);
+    }
+
+    .navbar-brand {
+      color: var(--text-strong) !important;
+      font-weight: 800;
+      font-size: 1.75rem;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .brand-chip {
+      width: 16px;
+      height: 16px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: var(--glow-primary);
+      display: inline-block;
+      animation: pulse-glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse-glow {
+      0% { box-shadow: var(--glow-primary); }
+      100% { box-shadow: var(--glow-accent); }
+    }
+
+    .nav-link {
+      color: var(--text-strong) !important;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.75rem 1.25rem !important;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-link:hover {
+      color: var(--primary) !important;
+      background: rgba(45, 55, 72, 0.8);
+      transform: translateY(-2px);
+      box-shadow: var(--glow-primary);
+    }
+
+    /* ===== BOTÓN TEMA MEJORADO ===== */
+    .btn-icon {
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      background: rgba(45, 55, 72, 0.8);
+      color: var(--text-strong);
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-icon:hover {
+      transform: scale(1.05);
+      box-shadow: var(--glow-accent);
+      background: rgba(69, 183, 209, 0.2);
+    }
+
+    .btn-icon .icon-sun::before {
+      content: "☀";
+      filter: drop-shadow(0 0 8px rgba(255, 180, 0, 0.8));
+      font-size: 1.4rem;
+    }
+
+    .btn-icon .icon-moon::before {
+      content: "🌙";
+      filter: drop-shadow(0 0 8px rgba(120, 120, 255, 0.8));
+      font-size: 1.4rem;
+    }
+
+    /* ===== HERO SECTION MEJORADA ===== */
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 4rem 0 2rem;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: var(--text-strong);
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .txt-neon {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, var(--primary-2) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: none;
+      animation: neon-pulse 3s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.5));
+    }
+
+    @keyframes neon-pulse {
+      0% { filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.5)); }
+      100% { filter: drop-shadow(0 0 20px rgba(69, 183, 209, 0.8)); }
+    }
+
+    .hero .lead {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      line-height: 1.5;
+    }
+
+    /* ===== BADGES MEJORADAS ===== */
+    .badges-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      padding: 0.75rem 1.25rem;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 700;
+      border: 2px solid;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .chip:hover {
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    .chip-ok {
+      color: var(--success);
+      border-color: var(--success);
+      box-shadow: 0 0 15px rgba(81, 207, 102, 0.4);
+    }
+
+    .chip-info {
+      color: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(255, 107, 107, 0.4);
+    }
+
+    .chip-warn {
+      color: var(--warning);
+      border-color: var(--warning);
+      box-shadow: 0 0 15px rgba(255, 212, 59, 0.4);
+    }
+
+    /* ===== HUD CARD MEJORADA ===== */
+    .hud-card {
+      position: relative;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-strong);
+      padding: 2rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .hud-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    .hud-kpi .kpi-label {
+      font-size: 1rem;
+      color: var(--text);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hud-kpi .kpi-value {
+      font-family: 'Inter', monospace;
+      font-weight: 800;
+      font-size: 3rem;
+      color: var(--primary);
+      text-shadow: var(--glow-primary);
+    }
+
+    .progress-thin {
+      height: 12px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress-thin .progress-bar {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 6px;
+      animation: progress-glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes progress-glow {
+      0% { box-shadow: 0 0 10px rgba(255, 107, 107, 0.5); }
+      100% { box-shadow: 0 0 20px rgba(69, 183, 209, 0.8); }
+    }
+
+    .hud-log {
+      font-size: 1.1rem;
+      color: var(--text);
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #adb5bd;
+      display: inline-block;
+      margin-right: 10px;
+      animation: dot-pulse 2s ease-in-out infinite;
+    }
+
+    .dot-ok {
+      background: var(--success);
+      box-shadow: 0 0 10px rgba(81, 207, 102, 0.6);
+    }
+
+    @keyframes dot-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    /* ===== ACTION CARDS MEJORADAS ===== */
+    .action-card {
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      box-shadow: var(--shadow);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .action-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: var(--shadow-strong);
+      border-color: var(--primary);
+    }
+
+    .action-card .card-body {
+      padding: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .step {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--glow-primary);
+      animation: step-glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes step-glow {
+      0% { box-shadow: var(--glow-primary); }
+      100% { box-shadow: var(--glow-accent); }
+    }
+
+    .card-title {
+      color: var(--text-strong);
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .action-card .text-muted {
+      color: var(--text) !important;
+      font-size: 1.1rem;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* ===== BOTONES MEJORADOS ===== */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 1rem 2rem;
+      border-radius: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      box-shadow: var(--glow-primary);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+    }
+
+    .btn-outline-primary {
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 1rem 2rem;
+      border-radius: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: var(--glow-primary);
+    }
+
+    .glow {
+      animation: button-glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes button-glow {
+      0% { box-shadow: var(--glow-primary); }
+      100% { box-shadow: var(--glow-accent); }
+    }
+
+    /* ===== REVEAL ANIMATIONS ===== */
+    .reveal-up {
+      transform: translateY(40px);
+      opacity: 0;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal-up.in {
+      transform: translateY(0);
+      opacity: 1;
+      transition-delay: var(--delay, 0s);
+    }
+
+    .tilt {
+      will-change: transform;
+      transform: perspective(1000px) rotateX(0) rotateY(0);
+      transition: transform 0.3s ease-out;
+    }
+
+    /* ===== UTILIDADES ===== */
+    .text-muted {
+      color: var(--muted) !important;
+    }
+
+    .theme-init {
+      visibility: hidden;
+    }
+
+    /* ===== FOOTER MEJORADO ===== */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .heart {
+      color: var(--primary);
+      animation: heartbeat 2s ease-in-out infinite;
+      filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.6));
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* ===== RESPONSIVE MEJORADO ===== */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero .lead {
+        font-size: 1.2rem;
+      }
+      
+      .badges-row {
+        gap: 0.5rem;
+      }
+      
+      .chip {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .action-card .card-body {
+        padding: 1.5rem;
+      }
+      
+      .step {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+    }
+  </style>
 </head>
 <body data-page="home" class="theme-init">
-  <!-- Decor -->
-  <div class="decor decor-blob-1"></div>
-  <div class="decor decor-blob-2"></div>
+  <!-- Elementos de fondo animado -->
+  <div class="grid-overlay"></div>
+  <div class="wave-overlay"></div>
   <div class="noise"></div>
 
   <!-- NAV -->
@@ -30,9 +618,9 @@
       </div>
       <div class="collapse navbar-collapse" id="nav">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
-          <li class="nav-item"><a class="nav-link" href="upload.html">Subir PDFs</a></li>
-          <li class="nav-item"><a class="nav-link" href="articulos.html">Artículos</a></li>
-          <li class="nav-item me-lg-2"><a class="nav-link" href="export.html">Exportar</a></li>
+          <li class="nav-item"><a class="nav-link" href="upload.html">📤 Subir PDFs</a></li>
+          <li class="nav-item"><a class="nav-link" href="articulos.html">📚 Artículos</a></li>
+          <li class="nav-item me-lg-2"><a class="nav-link" href="export.html">📥 Exportar</a></li>
           <li class="nav-item d-none d-lg-block">
             <button id="themeToggle" class="btn btn-icon" aria-label="Cambiar tema">
               <span class="icon-sun"></span><span class="icon-moon"></span>
@@ -43,38 +631,38 @@
     </div>
   </nav>
 
-  <!-- HERO -->
-  <header class="hero container py-4">
-    <div class="row align-items-center g-3">
+  <!-- HERO MEJORADO -->
+  <header class="hero container">
+    <div class="row align-items-center g-4">
       <div class="col-lg-7">
-        <h1 class="display-6 fw-bold lh-1 mb-2 reveal-up">
+        <h1 class="display-6 fw-bold lh-1 mb-3 reveal-up">
           Revisión sistemática <span class="txt-neon">ultra fluida</span>
         </h1>
-        <p class="lead text-muted mb-3 reveal-up" style="--delay:.06s">
+        <p class="lead mb-4 reveal-up" style="--delay:.1s">
           Sube PDFs, responde RQ1..RQn con explicación + categóricas + impacto, y exporta a Excel en formato ancho.
         </p>
-        <div class="d-flex flex-wrap gap-2 reveal-up" style="--delay:.12s">
-          <a href="upload.html" class="btn btn-primary btn-lg glow">Comenzar</a>
-          <a href="articulos.html" class="btn btn-outline-primary btn-lg">Ver artículos</a>
+        <div class="d-flex flex-wrap gap-3 mb-4 reveal-up" style="--delay:.2s">
+          <a href="upload.html" class="btn btn-primary btn-lg glow">🚀 Comenzar</a>
+          <a href="articulos.html" class="btn btn-outline-primary btn-lg">👁️ Ver artículos</a>
         </div>
-        <div class="badges-row reveal-up" style="--delay:.18s">
-          <span class="chip chip-ok">Local</span>
-          <span class="chip chip-info">Rápido</span>
-          <span class="chip chip-warn">Exportable</span>
+        <div class="badges-row reveal-up" style="--delay:.3s">
+          <span class="chip chip-ok">🏠 Local</span>
+          <span class="chip chip-info">⚡ Rápido</span>
+          <span class="chip chip-warn">📊 Exportable</span>
         </div>
       </div>
       <div class="col-lg-5">
-        <div class="hud-card tilt reveal-up" style="--delay:.12s" data-tilt>
+        <div class="hud-card tilt reveal-up" style="--delay:.2s" data-tilt>
           <div class="hud-grid">
-            <div class="hud-kpi">
+            <div class="hud-kpi mb-4">
               <div class="kpi-label">Progreso</div>
               <div class="kpi-value">72%</div>
-              <div class="progress progress-thin"><div class="progress-bar" style="width:72%"></div></div>
+              <div class="progress progress-thin mt-3"><div class="progress-bar" style="width:72%"></div></div>
             </div>
             <div class="hud-log">
-              <div class="dot dot-ok"></div> RQ1: GPT, LLaMA<br/>
-              <div class="dot"></div> RQ5: F1, A/B<br/>
-              <div class="dot"></div> Exportación: CSV / XLSX
+              <div class="mb-2"><span class="dot dot-ok"></span> RQ1: GPT, LLaMA</div>
+              <div class="mb-2"><span class="dot"></span> RQ5: F1, A/B</div>
+              <div><span class="dot"></span> Exportación: CSV / XLSX</div>
             </div>
           </div>
           <div class="scanline"></div>
@@ -83,35 +671,35 @@
     </div>
   </header>
 
-  <!-- ACCIONES -->
-  <main class="container pb-4">
-    <div class="row g-3">
+  <!-- ACCIONES MEJORADAS -->
+  <main class="container pb-5">
+    <div class="row g-4">
       <div class="col-lg-4">
-        <div class="card action-card tilt" data-tilt>
+        <div class="card action-card tilt h-100" data-tilt>
           <div class="card-body">
             <div class="step">1</div>
-            <h5 class="card-title mb-1">Subir artículos</h5>
-            <p class="text-muted mb-3">Carga 1 o varios PDFs. El título se toma del nombre; se guarda el <code>pdf_path</code>.</p>
+            <h5 class="card-title">📁 Subir artículos</h5>
+            <p class="text-muted mb-4">Carga 1 o varios PDFs. El título se toma del nombre; se guarda el <code>pdf_path</code>.</p>
             <a href="upload.html" class="btn btn-primary w-100">Ir a subir</a>
           </div>
         </div>
       </div>
       <div class="col-lg-4">
-        <div class="card action-card tilt" data-tilt>
+        <div class="card action-card tilt h-100" data-tilt>
           <div class="card-body">
             <div class="step">2</div>
-            <h5 class="card-title mb-1">Completar preguntas</h5>
-            <p class="text-muted mb-3">Explicación, categóricas, impacto y valoración por RQ.</p>
+            <h5 class="card-title">❓ Completar preguntas</h5>
+            <p class="text-muted mb-4">Explicación, categóricas, impacto y valoración por RQ.</p>
             <a href="articulos.html" class="btn btn-primary w-100">Ir a artículos</a>
           </div>
         </div>
       </div>
       <div class="col-lg-4">
-        <div class="card action-card tilt" data-tilt>
+        <div class="card action-card tilt h-100" data-tilt>
           <div class="card-body">
             <div class="step">3</div>
-            <h5 class="card-title mb-1">Exportar resultados</h5>
-            <p class="text-muted mb-3">Descarga CSV/XLSX, una fila por artículo, 0/1 por opción.</p>
+            <h5 class="card-title">📊 Exportar resultados</h5>
+            <p class="text-muted mb-4">Descarga CSV/XLSX, una fila por artículo, 0/1 por opción.</p>
             <a href="export.html" class="btn btn-primary w-100">Exportar</a>
           </div>
         </div>
@@ -119,8 +707,10 @@
     </div>
   </main>
 
-  <footer class="py-3 small text-center text-muted">
-    Hecho con <span class="heart">♥</span> — Revision2
+  <footer class="py-4 text-center">
+    <div class="container">
+      <p class="mb-0">Hecho con <span class="heart">♥</span> — Revision2</p>
+    </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -153,7 +743,7 @@
     }, {threshold:.2});
     document.querySelectorAll('.reveal-up').forEach(el=> io.observe(el));
 
-    // Tilt suave
+    // Tilt suave mejorado
     document.querySelectorAll('[data-tilt]').forEach(card=>{
       let rX=0, rY=0;
       card.addEventListener('mousemove', (e)=>{
@@ -162,13 +752,24 @@
         const cy = b.top + b.height/2;
         const dx = (e.clientX - cx) / (b.width/2);
         const dy = (e.clientY - cy) / (b.height/2);
-        rX = (dy * -5); rY = (dx * 5);
-        card.style.transform = `perspective(900px) rotateX(${rX}deg) rotateY(${rY}deg) translateZ(0)`;
+        rX = (dy * -8); rY = (dx * 8);
+        card.style.transform = `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg) translateZ(0) scale(1.02)`;
       });
       card.addEventListener('mouseleave', ()=>{
-        card.style.transform = 'perspective(900px) rotateX(0) rotateY(0)';
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
       });
     });
+
+    // Animación del scanline mejorada
+    document.querySelectorAll('.scanline').forEach(scanline => {
+      setInterval(() => {
+        scanline.style.animation = 'none';
+        setTimeout(() => {
+          scanline.style.animation = 'scan 3s linear infinite';
+        }, 100);
+      }, 5000);
+    });
   </script>
+  <script src="assets/app.js?v=7"></script>
 </body>
 </html>

@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ---- Subida de PDFs (nuevo) ----
 async function initUpload(){
   // Tema (mismo toggle que index)
+  console.log('[upload] init');
   const THEME_KEY='rev2-theme';
   function applyTheme(mode){ document.documentElement.setAttribute('data-theme', mode); localStorage.setItem(THEME_KEY, mode); }
   (function initTheme(){
@@ -288,9 +289,13 @@ function showSuccessNotification() {
 
 // === Inicialización ===
 document.addEventListener('DOMContentLoaded', () => {
-  createParticles();
-  createConnections();
+  const page = document.body.dataset.page;
+  if (page === 'upload') initUpload();
+  if (page === 'list') initList();
+  if (page === 'detail') initDetail();
+  if (page === 'export') initExport();
 });
+
 
 // === Lógica de archivos ===
 function updateFileList(files) {

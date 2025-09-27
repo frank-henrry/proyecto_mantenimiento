@@ -6,86 +6,1088 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Artículo — Revision2</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="stylesheet" href="assets/styles.css?v=7" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===== VARIABLES IDÉNTICAS ===== */
+        :root {
+            --bg: linear-gradient(135deg, #2d3748 0%, #1a202c 50%, #171923 100%);
+            --surface: rgba(45, 55, 72, 0.9);
+            --surface-2: rgba(26, 32, 44, 0.85);
+            --text: #e2e8f0;
+            --text-strong: #f7fafc;
+            --muted: #a0aec0;
+            --border: rgba(102, 126, 234, 0.3);
+            --primary: #ff6b6b;
+            --primary-2: #4ecdc4;
+            --accent: #45b7d1;
+            --success: #51cf66;
+            --warning: #ffd43b;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            --shadow-strong: 0 25px 50px rgba(0, 0, 0, 0.4);
+            --icon-filter: invert(1);
+            --glow-primary: 0 0 20px rgba(255, 107, 107, 0.5);
+            --glow-accent: 0 0 20px rgba(69, 183, 209, 0.5);
+        }
+
+        :root[data-theme="dark"] {
+            --bg: linear-gradient(135deg, #0f1419 0%, #1a1b23 50%, #252730 100%);
+            --surface: rgba(15, 20, 25, 0.95);
+            --surface-2: rgba(26, 27, 35, 0.9);
+            --text: #cbd5e0;
+            --text-strong: #e2e8f0;
+            --muted: #718096;
+            --border: rgba(69, 183, 209, 0.25);
+            --primary: #ff8a80;
+            --primary-2: #64ffda;
+            --accent: #40c4ff;
+            --success: #69f0ae;
+            --warning: #ffab40;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            --shadow-strong: 0 25px 50px rgba(0, 0, 0, 0.8);
+            --icon-filter: invert(1);
+            --glow-primary: 0 0 15px rgba(255, 138, 128, 0.4);
+            --glow-accent: 0 0 15px rgba(64, 196, 255, 0.4);
+        }
+
+        /* ===== BASE STYLES ===== */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            font-weight: 500;
+        }
+
+        body {
+            background: #1a202c;
+            color: var(--text-strong);
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ===== FONDO ANIMADO IDÉNTICO ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a202c;
+            z-index: -5;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, rgba(255, 107, 107, 0.3), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(69, 183, 209, 0.2), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(78, 205, 196, 0.3), transparent),
+                radial-gradient(1px 2px at 130px 80px, rgba(255, 212, 59, 0.2), transparent),
+                radial-gradient(2px 1px at 160px 30px, rgba(255, 107, 107, 0.2), transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: stars 120s linear infinite;
+            z-index: -4;
+        }
+
+        @keyframes stars {
+            from { transform: translateX(0); }
+            to { transform: translateX(-200px); }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -3;
+            animation: grid-move 60s linear infinite;
+        }
+
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .wave-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at center top, rgba(255, 107, 107, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at center bottom, rgba(69, 183, 209, 0.05) 0%, transparent 50%);
+            animation: wave-pulse 8s ease-in-out infinite alternate;
+            z-index: -2;
+        }
+
+        @keyframes wave-pulse {
+            0% { 
+                opacity: 0.3;
+                transform: scale(1) rotate(0deg);
+            }
+            100% { 
+                opacity: 0.7;
+                transform: scale(1.1) rotate(1deg);
+            }
+        }
+
+        .noise {
+            pointer-events: none;
+            position: fixed;
+            inset: 0;
+            opacity: 0.02;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.2'/%3E%3C/svg%3E");
+            z-index: -1;
+        }
+
+        /* ===== NAVEGACIÓN ===== */
+        .nav-glass {
+            backdrop-filter: saturate(180%) blur(20px);
+            background: rgba(45, 55, 72, 0.85);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+        }
+
+        .navbar-brand {
+            color: var(--text-strong) !important;
+            font-weight: 800;
+            font-size: 1.75rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-chip {
+            width: 16px;
+            height: 16px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: var(--glow-primary);
+            display: inline-block;
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: var(--glow-primary); }
+            100% { box-shadow: var(--glow-accent); }
+        }
+
+        .nav-link {
+            color: var(--text-strong) !important;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.75rem 1.25rem !important;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-link:hover {
+            color: var(--primary) !important;
+            background: rgba(45, 55, 72, 0.8);
+            transform: translateY(-2px);
+            box-shadow: var(--glow-primary);
+        }
+
+        .btn-icon {
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            background: rgba(45, 55, 72, 0.8);
+            color: var(--text-strong);
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            position: relative;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-icon:hover {
+            transform: scale(1.05);
+            box-shadow: var(--glow-accent);
+            background: rgba(69, 183, 209, 0.2);
+        }
+
+        .btn-icon .icon-sun::before {
+            content: "☀";
+            filter: drop-shadow(0 0 8px rgba(255, 180, 0, 0.8));
+            font-size: 1.4rem;
+        }
+
+        .btn-icon .icon-moon::before {
+            content: "🌙";
+            filter: drop-shadow(0 0 8px rgba(120, 120, 255, 0.8));
+            font-size: 1.4rem;
+        }
+
+        /* ===== HEADER DE ARTÍCULO ===== */
+        .article-header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-header h4 {
+            color: var(--text-strong);
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .article-meta {
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .article-meta a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .article-meta a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 8px rgba(255, 107, 107, 0.6);
+        }
+
+        /* ===== PROGRESS BAR MEJORADA ===== */
+        .progress {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary-2));
+            border-radius: 10px;
+            animation: progress-glow 2s ease-in-out infinite alternate;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes progress-glow {
+            0% { box-shadow: 0 0 10px rgba(255, 107, 107, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(69, 183, 209, 0.8); }
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* ===== CARDS MEJORADAS ===== */
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .card-body {
+            position: relative;
+            z-index: 2;
+        }
+
+        .sticky-card {
+            position: sticky;
+            top: 120px;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+        }
+
+        /* ===== FORMULARIOS ===== */
+        .form-label {
+            color: var(--text-strong);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: var(--text-strong);
+            font-weight: 500;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary);
+            box-shadow: var(--glow-primary);
+            color: var(--text-strong);
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: var(--muted);
+        }
+
+        .form-control-sm {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        /* ===== BOTONES ===== */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid var(--muted);
+            color: var(--text-strong);
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--muted);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outline-secondary {
+            border: 2px solid var(--muted);
+            color: var(--muted);
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-secondary:hover {
+            background: var(--muted);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), var(--primary-2));
+            border: none;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(81, 207, 102, 0.4);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(81, 207, 102, 0.5);
+            background: linear-gradient(135deg, var(--primary-2), var(--success));
+        }
+
+        /* ===== NAVEGACIÓN DE PREGUNTAS ===== */
+        .list-group {
+            background: transparent;
+        }
+
+        .list-group-item {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--text-strong);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .list-group-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            color: var(--text-strong);
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .list-group-item.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: var(--glow-primary);
+            font-weight: 700;
+        }
+
+        /* ===== SCANLINE EFFECT ===== */
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* ===== LAZY LOADING EFFECTS ===== */
+        .lazy-load {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .lazy-load.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .lazy-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lazy-reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Loading spinner para contenido lazy */
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            animation: loading-shimmer 1.5s infinite;
+            z-index: 1;
+        }
+
+        @keyframes loading-shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Skeleton loading para cards */
+        .skeleton {
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.1) 25%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.1) 75%
+            );
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-text {
+            height: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .skeleton-text:last-child {
+            width: 60%;
+        }
+
+        /* Optimización de scroll suave */
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+
+        /* Indica elementos que están siendo cargados */
+        .lazy-loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Preloader para contenido crítico */
+        .preload-critical {
+            animation: preload-fade-in 0.5s ease;
+        }
+
+        @keyframes preload-fade-in {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* ===== REVEAL ANIMATIONS ===== */
+        .reveal-up {
+            transform: translateY(40px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal-up.in {
+            transform: translateY(0);
+            opacity: 1;
+            transition-delay: var(--delay, 0s);
+        }
+
+        .tilt {
+            will-change: transform;
+            transform: perspective(1000px) rotateX(0) rotateY(0);
+            transition: transform 0.3s ease-out;
+        }
+
+        /* ===== UTILIDADES ===== */
+        .text-muted {
+            color: var(--muted) !important;
+        }
+
+        .text-strong {
+            color: var(--text-strong) !important;
+        }
+
+        .theme-init {
+            visibility: hidden;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .sticky-card {
+                position: relative;
+                top: auto;
+                max-height: none;
+                margin-bottom: 2rem;
+            }
+            
+            .article-header {
+                padding: 1.5rem;
+            }
+            
+            .article-header .d-flex {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .progress {
+                width: 100% !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .article-header {
+                padding: 1rem;
+            }
+            
+            .btn-success {
+                padding: 0.75rem 1.5rem;
+            }
+        }
+    </style>
 </head>
 
-<body data-page="detail">
-    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+<body data-page="detail" class="theme-init">
+    <!-- Elementos de fondo IDÉNTICOS -->
+    <div class="grid-overlay"></div>
+    <div class="wave-overlay"></div>
+    <div class="noise"></div>
+
+    <!-- NAV IDÉNTICA -->
+    <nav class="navbar navbar-expand-lg nav-glass sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand fw-semibold" href="index.html">Revision2</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
-                aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="index.html">
+                <span class="brand-chip"></span> Revision2
+            </a>
+            <div class="d-flex align-items-center gap-2 d-lg-none ms-auto">
+                <button id="themeToggleSm" class="btn btn-icon" aria-label="Cambiar tema">
+                    <span class="icon-sun"></span><span class="icon-moon"></span>
+                </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"
+                        aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon" style="filter: var(--icon-filter)"></span>
+                </button>
+            </div>
             <div class="collapse navbar-collapse" id="nav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="articulos.html">Artículos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="export.html">Exportar</a></li>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="upload.html">📤 Subir PDFs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="articulos.html">📚 Artículos</a></li>
+                    <li class="nav-item me-lg-2"><a class="nav-link" href="export.html">📥 Exportar</a></li>
+                    <li class="nav-item d-none d-lg-block">
+                        <button id="themeToggle" class="btn btn-icon" aria-label="Cambiar tema">
+                            <span class="icon-sun"></span><span class="icon-moon"></span>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-
+    <!-- CONTENIDO PRINCIPAL -->
     <main class="container py-3">
-        <div class="d-flex align-items-center justify-content-between mb-2">
-            <div class="d-flex flex-column">
-                <h4 class="mb-0" id="artTitle">Artículo</h4>
-                <small class="text-muted">PDF: <span id="artPdf"></span> · <a id="openPdf"
-                        target="_blank">Abrir</a></small>
-            </div>
-            <div class="d-flex align-items-center gap-2">
-                <div class="progress" style="width:220px;height:10px">
-                    <div id="progressBar" class="progress-bar" role="progressbar" style="width:0%"></div>
+        <!-- Header del artículo -->
+        <div class="article-header reveal-up">
+            <div class="d-flex align-items-center justify-content-between mb-0">
+                <div class="d-flex flex-column">
+                    <h4 class="mb-0" id="artTitle">📄 Artículo</h4>
+                    <small class="article-meta">PDF: <span id="artPdf"></span> · <a id="openPdf" target="_blank">🔗 Abrir</a></small>
                 </div>
-                <span id="progressText" class="text-muted small">0/0</span>
-                <a class="btn btn-outline-secondary btn-sm" href="articulos.html">Volver</a>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="progress" style="width:220px;height:12px">
+                        <div id="progressBar" class="progress-bar" role="progressbar" style="width:0%"></div>
+                    </div>
+                    <span id="progressText" class="text-muted small fw-bold">0/0</span>
+                    <a class="btn btn-outline-secondary btn-sm" href="articulos.html">↩ Volver</a>
+                </div>
             </div>
+            <div class="scanline"></div>
         </div>
 
-
-        <div class="row g-3">
+        <div class="row g-4">
+            <!-- Resumen del artículo -->
             <div class="col-12">
-                <div class="card shadow-soft">
+                <div class="card tilt reveal-up" data-tilt style="--delay:.1s">
                     <div class="card-body">
-                        <label class="form-label">Resumen del artículo</label>
+                        <label class="form-label">📝 Resumen del artículo</label>
                         <textarea id="txtResumen" class="form-control autosize" rows="4"
-                            placeholder="Escribe tu síntesis..."></textarea>
-                        <div class="d-flex gap-2 mt-2">
-                            <button class="btn btn-secondary btn-sm" id="btnSaveResumen">Guardar resumen</button>
+                            placeholder="Escribe tu síntesis del artículo..."></textarea>
+                        <div class="d-flex gap-3 mt-3 align-items-center">
+                            <button class="btn btn-secondary btn-sm" id="btnSaveResumen">💾 Guardar resumen</button>
                             <small class="text-muted" id="resumenInfo">0 palabras</small>
                         </div>
                     </div>
+                    <div class="scanline"></div>
                 </div>
             </div>
 
-
+            <!-- Navegación de preguntas -->
             <div class="col-lg-3">
-                <div class="card shadow-soft sticky-card">
+                <div class="card sticky-card tilt reveal-up" data-tilt style="--delay:.2s">
                     <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <h6 class="mb-0">Preguntas</h6>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h6 class="mb-0 text-strong">❓ Preguntas</h6>
                             <span class="small text-muted">clic para saltar</span>
                         </div>
-                        <input id="qSearch" class="form-control form-control-sm mb-2" placeholder="Buscar" />
+                        <input id="qSearch" class="form-control form-control-sm mb-3" placeholder="🔍 Buscar" />
                         <div id="qNav" class="list-group small"></div>
                     </div>
+                    <div class="scanline"></div>
                 </div>
             </div>
 
-
+            <!-- Contenido de preguntas -->
             <div class="col-lg-9">
-                <div id="qWrap"></div>
-                <div class="d-grid">
-                    <button class="btn btn-success btn-lg" id="btnSaveAll">Guardar todas</button>
+                <div id="qWrap" class="reveal-up" style="--delay:.3s"></div>
+                <div class="d-grid mt-4 reveal-up" style="--delay:.4s">
+                    <button class="btn btn-success btn-lg" id="btnSaveAll">💾 Guardar todas las respuestas</button>
                 </div>
             </div>
         </div>
     </main>
 
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/app.js"></script>
+    <script>
+        // ===== SISTEMA DE TEMA (IDÉNTICO) =====
+        const THEME_KEY = 'rev2-theme';
+        function applyTheme(mode){
+            document.documentElement.setAttribute('data-theme', mode);
+            localStorage.setItem(THEME_KEY, mode);
+        }
+        (function initTheme(){
+            const saved = localStorage.getItem(THEME_KEY);
+            if(saved){ applyTheme(saved); }
+            else {
+                const preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                applyTheme(preferDark? 'dark':'light');
+            }
+            document.body.classList.remove('theme-init');
+        })();
+        
+        function toggleTheme(){
+            const cur = document.documentElement.getAttribute('data-theme') || 'light';
+            applyTheme(cur === 'light' ? 'dark' : 'light');
+        }
+        document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+        document.getElementById('themeToggleSm')?.addEventListener('click', toggleTheme);
+
+        // ===== REVEAL ANIMATIONS =====
+        const io = new IntersectionObserver(es=>{
+            es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }});
+        }, {threshold:.1});
+        document.querySelectorAll('.reveal-up').forEach(el=> io.observe(el));
+
+        // ===== TILT EFFECT =====
+        document.querySelectorAll('[data-tilt]').forEach(card=>{
+            let rX=0, rY=0;
+            card.addEventListener('mousemove', (e)=>{
+                const b = card.getBoundingClientRect();
+                const cx = b.left + b.width/2;
+                const cy = b.top + b.height/2;
+                const dx = (e.clientX - cx) / (b.width/2);
+                const dy = (e.clientY - cy) / (b.height/2);
+                rX = (dy * -4); rY = (dx * 4);
+                card.style.transform = `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg) translateZ(0) scale(1.01)`;
+            });
+            card.addEventListener('mouseleave', ()=>{
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+
+        // ===== LAZY LOADING IMPLEMENTATION =====
+        class LazyLoader {
+            constructor() {
+                this.observer = new IntersectionObserver(
+                    this.handleIntersection.bind(this),
+                    {
+                        rootMargin: '100px', // Cargar 100px antes de que sea visible
+                        threshold: 0.1
+                    }
+                );
+                this.loadedItems = new Set();
+            }
+
+            handleIntersection(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !this.loadedItems.has(entry.target)) {
+                        this.loadContent(entry.target);
+                        this.loadedItems.add(entry.target);
+                        this.observer.unobserve(entry.target);
+                    }
+                });
+            }
+
+            loadContent(element) {
+                // Simular carga de contenido pesado
+                element.classList.add('loading');
+                
+                // Efecto de carga progresiva
+                setTimeout(() => {
+                    element.classList.remove('loading');
+                    element.classList.add('loaded');
+                    
+                    // Trigger reveal animation
+                    if (element.classList.contains('lazy-reveal')) {
+                        element.classList.add('in');
+                    }
+                }, 200 + Math.random() * 300); // Stagger loading
+            }
+
+            observe(element) {
+                if (element) {
+                    this.observer.observe(element);
+                }
+            }
+
+            // Método para cargar contenido de preguntas específicas
+            async loadQuestionContent(questionId) {
+                const questionCard = document.querySelector(`[data-question="${questionId}"]`);
+                if (questionCard && !this.loadedItems.has(questionCard)) {
+                    // Simular carga de datos pesados de la pregunta
+                    questionCard.querySelector('.question-content')?.classList.add('loading');
+                    
+                    // Simular delay de red
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
+                    questionCard.querySelector('.question-content')?.classList.remove('loading');
+                    this.loadedItems.add(questionCard);
+                }
+            }
+        }
+
+        // ===== INICIALIZAR LAZY LOADING =====
+        const lazyLoader = new LazyLoader();
+
+        // Observar elementos que deben cargarse lazy
+        document.addEventListener('DOMContentLoaded', function() {
+            // Observar cards de preguntas para lazy loading
+            document.querySelectorAll('.lazy-load').forEach(el => {
+                lazyLoader.observe(el);
+            });
+
+            // Lazy load de navegación de preguntas
+            const qNavItems = document.querySelectorAll('#qNav .list-group-item');
+            qNavItems.forEach((item, index) => {
+                if (index > 5) { // Solo hacer lazy load después de las primeras 5
+                    lazyLoader.observe(item);
+                }
+            });
+        });
+
+        // ===== VIRTUAL SCROLLING PARA LISTAS LARGAS =====
+        class VirtualScroller {
+            constructor(container, itemHeight = 50, buffer = 5) {
+                this.container = container;
+                this.itemHeight = itemHeight;
+                this.buffer = buffer;
+                this.items = [];
+                this.renderedItems = new Map();
+            }
+
+            setItems(items) {
+                this.items = items;
+                this.render();
+            }
+
+            render() {
+                const containerHeight = this.container.clientHeight;
+                const scrollTop = this.container.scrollTop;
+                
+                const startIndex = Math.max(0, Math.floor(scrollTop / this.itemHeight) - this.buffer);
+                const endIndex = Math.min(
+                    this.items.length,
+                    Math.ceil((scrollTop + containerHeight) / this.itemHeight) + this.buffer
+                );
+
+                // Limpiar elementos no visibles
+                this.renderedItems.forEach((element, index) => {
+                    if (index < startIndex || index >= endIndex) {
+                        element.remove();
+                        this.renderedItems.delete(index);
+                    }
+                });
+
+                // Renderizar elementos visibles
+                for (let i = startIndex; i < endIndex; i++) {
+                    if (!this.renderedItems.has(i)) {
+                        const element = this.createItemElement(this.items[i], i);
+                        element.style.transform = `translateY(${i * this.itemHeight}px)`;
+                        element.style.position = 'absolute';
+                        element.style.width = '100%';
+                        this.container.appendChild(element);
+                        this.renderedItems.set(i, element);
+                    }
+                }
+
+                // Establecer altura total del contenedor
+                this.container.style.height = `${this.items.length * this.itemHeight}px`;
+            }
+
+            createItemElement(item, index) {
+                const element = document.createElement('div');
+                element.className = 'list-group-item lazy-reveal';
+                element.innerHTML = item.content || `Pregunta ${index + 1}`;
+                element.dataset.index = index;
+                
+                // Lazy load de contenido específico
+                setTimeout(() => {
+                    element.classList.add('loaded');
+                }, 50 * index);
+
+                return element;
+            }
+        }
+
+        // ===== PROGRESSIVE LOADING DE CONTENIDO =====
+        class ProgressiveLoader {
+            constructor() {
+                this.loadQueue = [];
+                this.isLoading = false;
+                this.maxConcurrent = 3;
+                this.currentLoading = 0;
+            }
+
+            addToQueue(loadFunction, priority = 0) {
+                this.loadQueue.push({ loadFunction, priority });
+                this.loadQueue.sort((a, b) => b.priority - a.priority);
+                this.processQueue();
+            }
+
+            async processQueue() {
+                if (this.isLoading || this.loadQueue.length === 0 || this.currentLoading >= this.maxConcurrent) {
+                    return;
+                }
+
+                this.isLoading = true;
+                this.currentLoading++;
+
+                const { loadFunction } = this.loadQueue.shift();
+                
+                try {
+                    await loadFunction();
+                } catch (error) {
+                    console.warn('Error en carga progresiva:', error);
+                } finally {
+                    this.currentLoading--;
+                    this.isLoading = false;
+                    
+                    // Continuar con el siguiente en la cola
+                    if (this.loadQueue.length > 0) {
+                        setTimeout(() => this.processQueue(), 10);
+                    }
+                }
+            }
+
+            // Cargar contenido de pregunta específica
+            loadQuestionData(questionId) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        // Simular carga de datos de pregunta
+                        console.log(`Cargando datos para pregunta ${questionId}`);
+                        resolve();
+                    }, 100 + Math.random() * 200);
+                });
+            }
+        }
+
+        // ===== INICIALIZAR PROGRESSIVE LOADER =====
+        const progressiveLoader = new ProgressiveLoader();
+
+        // ===== FUNCIONALIDAD CONSERVADA CON MEJORAS =====
+        // Toda la funcionalidad original se mantiene pero con lazy loading
+
+        // ===== CONTADOR DE PALABRAS AUTOMÁTICO =====
+        const resumenTextarea = document.getElementById('txtResumen');
+        const resumenInfo = document.getElementById('resumenInfo');
+        
+        if (resumenTextarea && resumenInfo) {
+            resumenTextarea.addEventListener('input', function() {
+                const words = this.value.trim().split(/\s+/).filter(word => word.length > 0).length;
+                resumenInfo.textContent = `${words} palabras`;
+            });
+        }
+
+        // ===== AUTO-RESIZE PARA TEXTAREA CON LAZY OPTIMIZATION =====
+        function autoResize(textarea) {
+            // Lazy resize para mejor performance
+            if (textarea._resizeTimeout) {
+                clearTimeout(textarea._resizeTimeout);
+            }
+            
+            textarea._resizeTimeout = setTimeout(() => {
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + 'px';
+            }, 10);
+        }
+
+        document.querySelectorAll('.autosize').forEach(textarea => {
+            textarea.addEventListener('input', function() {
+                autoResize(this);
+            });
+            // Resize inicial lazy
+            requestAnimationFrame(() => autoResize(textarea));
+        });
+
+        // ===== OPTIMIZACIÓN DE SCROLL =====
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            if (scrollTimeout) {
+                cancelAnimationFrame(scrollTimeout);
+            }
+            
+            scrollTimeout = requestAnimationFrame(() => {
+                // Lazy load de elementos que entran en viewport
+                document.querySelectorAll('.lazy-load:not(.loaded)').forEach(element => {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top < window.innerHeight + 100) { // 100px antes de ser visible
+                        lazyLoader.observe(element);
+                    }
+                });
+            });
+        }, { passive: true });
+
+        // ===== PRELOAD DE CONTENIDO CRÍTICO =====
+        function preloadCriticalContent() {
+            // Precargar solo el contenido visible inicialmente
+            const criticalElements = document.querySelectorAll('.card:nth-child(-n+3)');
+            criticalElements.forEach(el => {
+                el.classList.add('loaded');
+            });
+        }
+
+        // Ejecutar preload después de que la página inicial se haya cargado
+        window.addEventListener('load', preloadCriticalContent);
+    </script>
+    <script src="assets/app.js?v=7"></script>
 </body>
 
 </html>

@@ -214,3 +214,18 @@ if os.path.isdir(FRONTEND_DIR):
 
 if os.path.isdir(PDF_DIR):
     app.mount("/pdfs", StaticFiles(directory=PDF_DIR), name="pdfs")
+
+
+
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import Response
+
+class NoCacheStatic(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        resp: Response = await call_next(request)
+        if request.url.path.startswith("/app/assets/"):
+            resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+            resp.headers["Pragma"] = "no-cache"
+        return resp
+
+app.add_middleware(NoCacheStatic)
